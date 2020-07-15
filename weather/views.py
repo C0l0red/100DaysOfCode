@@ -47,7 +47,7 @@ def hourly(dt):
 
 # Create your views here.
 def home(request):
-    if not request.session.get('weather'):
+    if any(x not in request.session for x in ["city", 'country', 'weather']):
         city, country, *GEOCODE = geocoder("Abuja, Nigeria")
         request.session['weather'] = get_weather(*GEOCODE)
         request.session['city'] = city
