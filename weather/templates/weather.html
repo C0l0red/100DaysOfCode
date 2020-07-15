@@ -10,8 +10,8 @@
 <body>
     <div class="container">
         <div class="row my-2">
-            <form class="form col-12">
-                <input class="form-control" type="text" placeholder="City, Country..." aria-label="Search">
+            <form class="form col-12" action="#" method="POST">{% csrf_token %}
+                <input class="form-control" type="text" placeholder="City, Country..." aria-label="Search" name="location">
             </form>
         </div>
                 
@@ -24,28 +24,28 @@
                     <div class="card-body pb-3">
                 
                     <!-- Title -->
-                    <h4 class="card-title font-weight-bold">{{ result['city'] }}</h4>
+                    <h4 class="card-title font-weight-bold">{{ result.city }}</h4>
                     <!-- Text -->
-                    <p class="card-text">{{ result['time'] }}, {{ result['current_description'] }}</p>
+                    <p class="card-text">{{ result.time }}, {{ result.current_description }}</p>
                     <div class="d-flex justify-content-between">
-                        <p> <span class="display-1">{{result['current_temp']}</span><span class="display-4"><sup>&#8451;</sup></span></p>
-                        <i class="weather-description"><img src="http://openweathermap.org/img/wn/{{ result['current_icon'] }}@2x.png" alt=""></i>
+                        <p> <span class="display-1">{{ result.current_temp }}</span><span class="display-4"><sup>&#8451;</sup></span></p>
+                        <i class="weather-description"><img src="http://openweathermap.org/img/wn/{{ result.current_icon }}@2x.png" alt=""></i>
                     </div>
                     <div class="d-flex justify-content-between mb-4">
-                        <p><i class="fas fa-tint fa-lg text-info pr-2"><img src="/static/icons/rainy.png" alt="" width="20"></i>{{ result['rain']}} mm/h</p>
-                        <p><i class="fas fa-tint fa-lg text-info pr-2"><img src="/static/icons/humidity.jpeg" alt="" width="20"></i>{{ resultt['humidity']}}% Humidity</p>
-                        <p><i class="fas fa-tint fa-lg text-info pr-2"><img src="/static/icons/cloud-cover.jpeg" alt="" width="20"></i>{{ result['cloudiness']}% Cloudy</p>
-                        <p><i class="fas fa-leaf fa-lg grey-text pr-2"><img src="/static/icons/leaf.png" alt="" width="20"></i>{{result['wind']}}<span class='wind-speed'>m/s</span> Winds</p>
+                        <p><i class="fas fa-tint fa-lg text-info pr-2"><img src="/static/icons/rainy.png" alt="" width="20"></i>{{ result.rain }}</p>
+                        <p><i class="fas fa-tint fa-lg text-info pr-2"><img src="/static/icons/humidity.jpeg" alt="" width="20"></i>{{ result.humidity }}% Humidity</p>
+                        <p><i class="fas fa-tint fa-lg text-info pr-2"><img src="/static/icons/cloud-cover.jpeg" alt="" width="20"></i>{{ result.cloudiness }}% Cloudy</p>
+                        <p><i class="fas fa-leaf fa-lg grey-text pr-2"><img src="/static/icons/leaf.png" alt="" width="20"></i>{{ result.wind }}<span class='wind-speed'>m/s</span> Winds</p>
                     </div>
                     <div class="progress md-progress">
                         <div class="progress-bar black" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <ul class="list-unstyled d-flex justify-content-between font-small text-muted mb-4">
-                        <li class="pl-4">8AM</li>
-                        <li>11AM</li>
-                        <li>2PM</li>
-                        <li>5PM</li>
-                        <li class="pr-4">8PM</li>
+                        <li class="pl-4"><a href="#">8{{result.con}}</a></li>
+                        <li><a href="#">11{{result.con}}</a></li>
+                        <li><a href="#">2{{result.rev}}</a></li>
+                        <li><a href="#">5{{result.rev}}</a></li>
+                        <li class="pr-4"><a href="#">8{{result.rev}}</a></li>
                     </ul>
                 
                     <div class="collapse-content">
@@ -54,14 +54,14 @@
                 
                         <table class="table table-borderless table-sm mb-0">
                             <tbody>
-                            {% for day in result['daily']%}
+                            {% for day in result.daily %}
                             <tr>
-                                <td class="font-weight-normal align-middle">day['day']</td>
+                                <td class="font-weight-normal align-middle">{{ day.day }}</td>
                                 <td class="float-right font-weight-normal">
-                                <p class="mb-1">day['max']&deg;<span class="text-muted">/day['min']&deg;</span></p>
+                                <p class="mb-1">{{ day.max }}&deg;<span class="text-muted">/{{ day.min }}&deg;</span></p>
                                 </td>
-                                <td class="float-right mr-3">
-                                <i class="fas fa-sun fa-lg amber-text"></i>
+                                <td class="float-right mr-3 mt-0">
+                                <i class="fas fa-sun fa-lg amber-text"><img src="http://openweathermap.org/img/wn/{{ day.icon }}.png" width="36" alt=""></i>
                                 </td>
                             </tr>
                             {% endfor %}
