@@ -20,30 +20,37 @@ def geocoded(location):
     return lat, lon
 
 def geocoder(location):
-    global city
     url = 'https://geocode.xyz'
     params = {"locate": location, 'geoit':"JSON"}
     r = requests.get(url, params)
     geocode = r.json()
     city = geocode['standard']['city']
-    return geocode['latt'], geocode['longt']
+    return city, geocode['latt'], geocode['longt']
 
-weather = get_weather(*geocoder("Abuja, Nigeria"))
+#weather = get_weather(*geocoder("Abuja, Nigeria"))
 
 
 # Create your views here.
 def home(request, hour=None):
-    global weather
-    global city
+    if not request.session.get('weather'):
+        city, *GEOCODE = geocoder("Abuja, Nigeria")
+        request.session['weather'] = get_weather(*GEOCODE)
+        request.session['city'] = city
+
+    weather = request.session['weather']
+    city = request.session['city']
+
     if not hour:
         focus = weather['current']
 
     if request.method == "POST":
         location= request.POST['location']
-        #lat, lon = geocoder(location)
-        #print(exclude)
-        #return 
-        weather = get_weather(*geocoder(location))
+        city, *GEOCODE = geocoder(location)
+        
+        weather = get_weather(*GEOCODE)
+
+        request.session['weather'] = weather
+        request.session['city'] = city
         return HttpResponseRedirect('/weather/')
 
     if request.method == "GET":
