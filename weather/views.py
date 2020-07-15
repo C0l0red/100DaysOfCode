@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 import requests
 from datetime import datetime
 from pprint import pprint
+from django.contrib import messages
 
 
 def get_weather(lat, lon, exclude='', unit='metric'):
@@ -25,7 +26,8 @@ def geocoder(location):
     r = requests.get(url, params)
     geocode = r.json()
     city = geocode['standard']['city']
-    return city, geocode['latt'], geocode['longt']
+    country = geocode['standard']['countryname']
+    return city, country, geocode['latt'], geocode['longt']
 
 #weather = get_weather(*geocoder("Abuja, Nigeria"))
 
@@ -46,12 +48,14 @@ def hourly(dt):
 # Create your views here.
 def home(request):
     if not request.session.get('weather'):
-        city, *GEOCODE = geocoder("Abuja, Nigeria")
+        city, country, *GEOCODE = geocoder("Abuja, Nigeria")
         request.session['weather'] = get_weather(*GEOCODE)
         request.session['city'] = city
+        request.session['country'] = country
 
     weather = request.session['weather']
     city = request.session['city']
+    country = request.session['country']
 
     if 'hour' not in request.GET:
         focus = weather['current']
@@ -61,14 +65,18 @@ def home(request):
 
     if request.method == "POST":
         location= request.POST['location']
-        city, *GEOCODE = geocoder(location)
-        
-        weather = get_weather(*GEOCODE)
-
-        request.session['weather'] = weather
-        request.session['city'] = city
-        request.session.pop('hourly')
-        return HttpResponseRedirect('/weather/')
+        try:
+            city, country, *GEOCODE = geocoder(location)
+            weather = get_weather(*GEOCODE)
+        except:
+            messages.add_message(request, mess.ERROR, "Unable to get weather data. Try again or change input.")
+        else:
+            request.session['weather'] = weather
+            request.session['city'] = city
+            request.session['country'] = country
+            request.session.pop('hourly')
+        finally:
+            return HttpResponseRedirect('/weather/')
 
     if request.method == "GET":
         dt =  weather['timezone_offset'] + focus['dt']
@@ -94,6 +102,7 @@ def home(request):
         result['hours'] = request.session['hourly'].keys()
         result['progress'] = progress
         result['city'] = city
+        result['country'] = country
         result['current_description'] = focus['weather'][0]['description'].title()
         result['current_temp'] = round(focus['temp'])
         result['humidity'] = focus['humidity']
