@@ -69,7 +69,7 @@ def home(request):
             city, country, *GEOCODE = geocoder(location)
             weather = get_weather(*GEOCODE)
         except:
-            messages.add_message(request, mess.ERROR, "Unable to get weather data. Try again or change input.")
+            messages.add_message(request, messages.ERROR, "Unable to get weather data. Try again or change input.")
         else:
             request.session['weather'] = weather
             request.session['city'] = city
