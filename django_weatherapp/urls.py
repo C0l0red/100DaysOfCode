@@ -19,7 +19,6 @@ from weather import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('weather/<str:hour>', views.home, name='weather_view'),
     path('weather/', views.home, name='weather_view'),
     path('', views.home)
 ]

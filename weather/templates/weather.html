@@ -12,7 +12,10 @@
     <div class="container">
         <div class="row my-2">
             <form class="form col-12" action="#" method="POST">{% csrf_token %}
-                <input class="form-control" type="text" placeholder="City, Country..." aria-label="Search" name="location">
+              <div class="form-row">
+                <input class="form-control col-12" type="text" placeholder="City, Country..." aria-label="Search" name="location">
+              </div>
+              
             </form>
         </div>
                 
@@ -25,7 +28,27 @@
                     <div class="card-body pb-3">
                 
                     <!-- Title -->
-                    <h4 class="card-title font-weight-bold">{{ result.city }}</h4>
+                    <div>
+                      <h4 class="card-title font-weight-bold">{{ result.city }}
+                      <form action="#" method="get" class="float-right">
+                        <div class="form-row">
+                          <div class="form-group px-2">
+                            <select name="hour" id="hour" class="form-control custom-select" >
+                              {% for hour in result.hours %}
+                              <option value="{{hour}}" {% if hour == result.current_hour %}selected{% endif %}>{{hour}}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <input type="submit" class="form-control" value="Go">
+                          </div>
+                        </div>
+                        
+
+                      </form>
+                      </h4>
+                    </div>
+                    
                     <!-- Text -->
                     <p class="card-text">{{ result.time }}, {{ result.current_description }}</p>
                     <div class="d-flex justify-content-between">
@@ -34,19 +57,19 @@
                     </div>
                     <div class="d-flex justify-content-between mb-4">
                         <p><i class="fas fa-tint fa-lg text-info pr-2"><img src="/static/icons/rainy.png" alt="" width="20"></i>{{ result.rain }}</p>
-                        <p><i class="fas fa-tint fa-lg text-info pr-2"><img src="/static/icons/humidity.jpeg" alt="" width="20"></i>{{ result.humidity }}% Humidity</p>
+                        <p><i class="fas fa-tint fa-lg text-info pr-2"><img src="/static/icons/humidity.jpeg" alt="" width="20"></i>{{ result.humidity }}% Humid</p>
                         <p><i class="fas fa-tint fa-lg text-info pr-2"><img src="/static/icons/cloud-cover.jpeg" alt="" width="20"></i>{{ result.cloudiness }}% Cloudy</p>
                         <p><i class="fas fa-leaf fa-lg grey-text pr-2"><img src="/static/icons/leaf.png" alt="" width="20"></i>{{ result.wind }}<span class='wind-speed'>m/s</span> Winds</p>
                     </div>
                     <div class="progress md-progress">
-                        <div class="progress-bar black" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar black" role="progressbar" style="width: {{ result.progress }}%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <ul class="list-unstyled d-flex justify-content-between font-small text-muted mb-4">
-                        <li class="pl-4"><a href="#">8{{result.con}}</a></li>
-                        <li><a href="#">11{{result.con}}</a></li>
-                        <li><a href="#">2{{result.rev}}</a></li>
-                        <li><a href="#">5{{result.rev}}</a></li>
-                        <li class="pr-4"><a href="#">8{{result.rev}}</a></li>
+                        <li class="pl-4"><a href="{% url 'weather_view' %}?hour=" class="hourly">8{{result.con}}</a></li>
+                        <li><a href="{% url 'weather_view'  %}?hour=" class="hourly">11{{result.con}}</a></li>
+                        <li><a href="{% url 'weather_view' %}?hour=" class="hourly">2{{result.rev}}</a></li>
+                        <li><a href="{% url 'weather_view' %}?hour=" class="hourly">5{{result.rev}}</a></li>
+                        <li class="pr-4"><a href="{% url 'weather_view' %}?hour=" class="hourly">8{{result.rev}}</a></li>
                     </ul>
                 
                     <div class="collapse-content">
@@ -284,6 +307,16 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+    <script>
+      $(function(){
+        $('.hourly').each(function(){
+          let url = $(this).attr('href');
+          url += $(this).text();
+          $(this).attr('href', url);
+        })
+      })
+    </script>
 
 </body>
 </html>
