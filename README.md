@@ -1,8 +1,8 @@
 # Django Email Sender
 ### Overview
 This project is quite self explanatory.  
-An email sender done with Django. Uses python-dotenv extension to get environment variables where you'd store your username and password.
-An 'index.html' template for displaying the form to be used to take the details of the email and the recipient and a 'success.html' template to verify success./   
+Uses Django to send emails, specifically for Gmail accounts.  
+Uses python-dotenv to store email username and password in environment variables.
 
 ### How to use
  * Install Python for your operating system, info can be found at [Python.org](http://www.python.org)
