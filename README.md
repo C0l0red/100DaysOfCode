@@ -2,7 +2,7 @@
 ### Overview
 This project is quite self explanatory.  
 Uses Django to send emails, specifically for Gmail accounts.  
-Uses python-dotenv to store email username and password in environment variables.
+Uses python-dotenv to store email address and password in environment variables.
 
 ### How to use
  * Install Python for your operating system, info can be found at [Python.org](http://www.python.org)
