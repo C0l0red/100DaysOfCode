@@ -14,6 +14,6 @@ An 'index.html' template for displaying the form to be used to take the details 
    * On the next line, ```EMAIL_HOST_PASSWORD=<your password>```. No spaces.
    * For any mail outside Gmail, please Google the Django settings for them.
  * Save it and start the server with ```python manage.py runserver``` on Windows or Mac, or ```python3 manage.py runserver``` on Linux.
- * Open the URL [localhost:8000/send](localhost:8000/send) in your browser.
+ * Open the URL [localhost:8000/send](http://localhost:8000/send) in your browser.
  * Fill in the details, and that's it.
 
