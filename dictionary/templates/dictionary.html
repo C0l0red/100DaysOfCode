@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+     <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+    
+    <div class="container mt-2">
+        <form action="#" method="get">
+            <input type="search" name="word" id="word" class="form-control rounded-pill" placeholder="Search word...">
+        </form>
+        <div class="row p-3">
+            <h1 class="col-12">{{Result.word}}</h1>
+            {% if Result.pronunciations %}
+            <div class="col-12">
+                <span class="font-weight-bold">Pronunciation</span>
+                <ul>
+                {% for key, value in Result.pronunciation.items %}
+                    <li><span class="text-muted">({{ key }})</span> {{ value }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% for result in Result.results %}
+            <div class="col-12 row p-3">
+                <div class="col-1">
+                    <h4 class="text-muted"><i>{{ result.partOfSpeech }}</i></h4>
+                </div>
+                <div class="col-11">
+                    <p> <h5 class="d-block text-info">definition</h5> {{ result.definition }}</p>
+                    {% if result.synonyms %}
+                    <p>
+                        <h5 class="d-block text-info">synonyms</h5>
+                        <ul class="list-styled">
+                        {% for syn in result.synonyms %} 
+                        <li><a href="{% url 'dictionary' word=syn %}" style="text-decoration: none; color: initial;">{{ syn }}</a> </li>
+                        {% endfor %}
+                        </ul>
+                    </p>
+                    {% endif %}
+                    {% if result.examples %}
+                    <h5 class="text-info">Examples</h5>
+                    <ul class="list-styled">
+                    {% for example in result.examples %}
+                    <li>{{example}}</li>
+                    {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                
+            </div>
+            <hr>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+</body>
+</html>
