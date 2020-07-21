@@ -33,3 +33,6 @@ def dictionary(request, word=None):
 
     return render(request, 'dictionary.html' , {'Result': result})
     #return JsonResponse(result)
+
+def home(request):
+    return HttpResponseRedirect('/dictionary')

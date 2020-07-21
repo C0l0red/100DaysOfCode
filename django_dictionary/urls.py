@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from dictionary.views import dictionary
+from dictionary.views import dictionary, home
+from django.shortcuts import redirect
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', home),
+    path('redonly/', admin.site.urls),
     path('dictionary/<str:word>', dictionary, name="dictionary"),
     path('dictionary/', dictionary),
 ]
