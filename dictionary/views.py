@@ -3,6 +3,8 @@ from django.http import JsonResponse, HttpResponseRedirect
 import requests
 from django_dictionary.settings import API_KEY
 
+print(API_KEY)
+
 def get_word(word):
     url = f"https://wordsapiv1.p.rapidapi.com/words/{word}"
     print(API_KEY) 
