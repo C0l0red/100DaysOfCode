@@ -1,5 +1,8 @@
 html
   head
-    title= title
+    title= "Users"
   body
-    h1= message
+    h1= "Displays users"
+    ul
+    each obj in users
+        li= `${obj.firstName} ${obj.lastName}`

@@ -19,6 +19,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+let users = [
+    {
+        firstName : "John",
+        lastName : "Doe"
+    },
+    {
+       firstName : "Jane",
+       lastName : "Dear" 
+    }
+];
+
 //app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -39,7 +50,7 @@ app.delete('/user', function (req, res) {
 })
 
 app.get('/home', function (req, res) {
-    res.render('home', { title: 'Hey', message: 'Hello there!' })
+    res.render('home', {title: 'Hey', message: 'Hello there!', users: users})
 })
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
