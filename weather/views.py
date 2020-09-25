@@ -59,6 +59,7 @@ def home(request):
     If there's no exception, then the sessions are replaced with the new values from the API call.
     """
     if request.method == "POST":
+        print("post")
         location= request.POST['location']
         try:
             city, country, *GEOCODE = geocoder(location)
@@ -66,7 +67,7 @@ def home(request):
         except:
             messages.add_message(request, messages.ERROR, "Unable to get weather data. Try again or change input.")
         else:
-            reques.session.clear()
+            request.session.clear()
             request.session['weather'] = weather
             request.session['city'] = city
             request.session['country'] = country
